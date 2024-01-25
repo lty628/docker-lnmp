@@ -1,0 +1,57 @@
+FROM php:7.2.34-fpm-alpine3.12
+#FROM php:7.3.32-fpm-alpine3.13
+
+# # PHPIZE_DEPS包含gcc g++等编译辅助类库，完成后删除;pecl安装扩展。
+# 错误时需要安装 libc-dev：
+# # apk add --no-cache -U libc-dev
+
+# 报 No curses library functions found，需安装 ncurses-dev：
+# # apk add --no-cache -U ncurses-dev
+
+# Cannot locate header file libintl.h，需安装 gettext-dev：
+# # apk add --no-cache -U gettext-dev
+
+# 安装 curl-dev 和 openssl-dev 时报
+# # apk add --no-cache -U libressl-dev
+# # apk add --no-cache -U curl-dev
+# 安装 autoconf(无configure脚本时):
+# # apk add --no-cache -U autoconf
+# 安装 C 编译器：
+# # apk add --no-cache -U gcc
+# # apk add --no-cache -U libc-dev
+# 安装 make
+# 安装 linux 内核文件头 linux-headers:
+# # apk add --no-cache -U linux-headers
+# intl pcntl 依赖 icu-dev
+
+
+ENV TZ "Asia/Shanghai"
+
+# 时区 创建www用户 配置阿里云镜像源，加快构建速度。
+RUN echo ${TZ} >/etc/timezone && addgroup -g 1000 -S www \
+    && adduser -s /sbin/nologin -S -D -u 1000 -G www www \
+    && sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories
+
+
+RUN apk update && apk add --no-cache $PHPIZE_DEPS \
+    && apk add --no-cache libstdc++ libzip-dev imagemagick-dev nginx freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libxml2-dev gettext-dev icu-dev \
+    && pecl install redis-5.3.0 \
+    && pecl install zip \
+    && pecl install imagick \
+    && pecl install swoole-4.8.13 \
+    && docker-php-ext-enable redis zip swoole imagick \
+    && apk del $PHPIZE_DEPS
+
+# docker-php-ext-install安装扩展。
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd soap xmlrpc exif gettext shmop intl pcntl pdo_mysql opcache bcmath mysqli
+
+# 可选
+# COPY composer.phar /usr/local/bin/composer
+
+# 在run.sh
+COPY run.sh /run.sh
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && mkdir -p /run/nginx/ && chmod +x /run.sh
+
+ENTRYPOINT ["/run.sh"]
+
