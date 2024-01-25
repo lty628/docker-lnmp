@@ -1,11 +1,12 @@
 version: '3'
 
 services:
-  php72:
+  php74:
     # 通过dockerfile自己构建方式，参考 README
-    # image: php72:v1.0.0
+    # image: php72:v1.0.0 或 php74:v1.0.0
     # 如果不想自己构建可以用
-    image: registry.cn-hangzhou.aliyuncs.com/neijuange/php72:v1.0.0
+    # registry.cn-hangzhou.aliyuncs.com/neijuange/php72:v1.0.0
+    image: registry.cn-hangzhou.aliyuncs.com/neijuange/php74:v1.0.0
     restart: always
     # depends_on:
     #   - mysql
