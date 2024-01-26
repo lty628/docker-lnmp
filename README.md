@@ -38,3 +38,7 @@ docker build -t php74:v1.0.0 . -f ./Dockerfile-php74
 | logs  | php、nginx等日志目录 | 以目录区分                                                   |
 | www   | 项目代码存放处       | 该目录下的文件或目录根据用户自定义，注意调整对应nginx配置即可 |
 
+## 数据库信息
+
+- 如果不需要刻意注释
+- 默认密码： root123456 （可在docker-compose.yml中修改）
