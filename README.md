@@ -2,9 +2,8 @@
 
 ## 使用前提
 
-- 已部署dock er
+- 已部署docker
 - 已经安装docker-compose
-- 
 
 ## 使用
 
