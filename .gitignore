@@ -1,1 +1,4 @@
-.vscode
+.vscode/
+.DS_Store
+www/
+conf/nginx/conf.d
