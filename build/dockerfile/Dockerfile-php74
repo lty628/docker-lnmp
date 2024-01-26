@@ -43,7 +43,8 @@ RUN apk update && apk add --no-cache $PHPIZE_DEPS \
     && apk del $PHPIZE_DEPS
 
 # docker-php-ext-install安装扩展。
-RUN docker-php-ext-install -j$(nproc) gd soap xmlrpc exif gettext shmop intl pcntl pdo_mysql opcache bcmath mysqli
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd soap xmlrpc exif gettext shmop intl pcntl pdo_mysql opcache bcmath mysqli
 
 # 可选
 # COPY composer.phar /usr/local/bin/composer
