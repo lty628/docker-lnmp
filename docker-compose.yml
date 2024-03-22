@@ -6,7 +6,7 @@ services:
     # image: php72:v1.0.0 或 php74:v1.0.0
     # 如果不想自己构建可以用
     # registry.cn-hangzhou.aliyuncs.com/neijuange/php72:v1.0.0
-    image: registry.cn-hangzhou.aliyuncs.com/neijuange/php74:v1.0.0
+    image: registry.cn-hangzhou.aliyuncs.com/neijuange/php72:v1.0.0
     container_name: php
     restart: always
     # depends_on:
