@@ -35,6 +35,8 @@ RUN echo ${TZ} >/etc/timezone && addgroup -g 1000 -S www \
 
 # apk upgrade && \
 #     rm -rf /var/cache/apk/*
+#  apk add --update --no-cache bash tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' > /etc/timezone && apk del tzdata
+
 RUN apk update && apk add --no-cache $PHPIZE_DEPS \
     && apk add --no-cache libstdc++ libzip-dev imagemagick-dev nginx freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libxml2-dev gettext-dev icu-dev \
     && pecl install redis-5.3.0 \
