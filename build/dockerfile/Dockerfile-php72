@@ -35,7 +35,7 @@ RUN echo ${TZ} >/etc/timezone && addgroup -g 1000 -S www \
 
 # apk upgrade && \
 #     rm -rf /var/cache/apk/*
-#  apk add --update --no-cache bash tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' > /etc/timezone && apk del tzdata
+#  RUN  sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories && apk add --update --no-cache curl coreutils busybox-extras bash tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' > /etc/timezone && apk del tzdata
 
 RUN apk update && apk add --no-cache $PHPIZE_DEPS \
     && apk add --no-cache libstdc++ libzip-dev imagemagick-dev nginx freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libxml2-dev gettext-dev icu-dev \
