@@ -31,7 +31,7 @@ services:
         soft: 262144
         hard: 262144
   mysql:
-    image: mysql:8
+    image: mysql:8.0.39
     restart: always
     container_name: mysql
     environment:
